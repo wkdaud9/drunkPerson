@@ -24,6 +24,14 @@ void PUnder();
 void PLeft();
 void PRight();
 
+void TwoOrThree();
+void TwoQ();
+void MakeImsang();
+void MakeJakyung();
+void CheckOneLineIm(int j);
+void CheckOneLineJa();
+//void ThreeQ();
+
 
 int map[10][10] = {0,};
 int px, py;
@@ -31,9 +39,12 @@ int pubX, pubY;
 int homeX,homeY;
 int beforeQ, nowQ, hQ;
 int unitTime = 0;
+int imX, imY;
+int jaX, jaY;
 
 int main(){
   Manage();
+  while(1){}
   return 0;
 }
 void Manage(){
@@ -44,6 +55,7 @@ void Manage(){
     PrintMap();
     PlayerWalk();
     CompQ();
+    TwoOrThree();
   }
 }
 void Start(){
@@ -67,6 +79,12 @@ void PrintMap(){
       else if(i == px && j == py){
         printf(" 5");
       }
+      else if(i == imX && j == imY){
+        printf(" I");
+      }
+      else if(i == jaX && j == jaY){
+        printf(" J");
+      }
       else if(map[i][j] == 0){
         printf(" 0");
       }
@@ -77,7 +95,7 @@ void PrintMap(){
     printf("\n");
   }
   printf("Unit Time : %d \n", unitTime);
-  usleep(500000);
+  usleep(1000000);
   system("clear");
 }
 void MakeMap(){
@@ -258,4 +276,68 @@ void MakeWallQ(int bq){
             }
         }
     }
+}
+void TwoOrThree(){
+  if(nowQ == 2){
+    TwoQ();
+  }
+  // else if(nowQ == 3){
+  //   ThreeQ();
+  // }
+}
+void TwoQ(){
+  static int twoUT = 0;
+  static int jakyung = 0;
+  twoUT += 1;
+  if(twoUT == 10){
+    MakeImsang();
+  }
+  if(twoUT == 20){
+    MakeJakyung();
+    jakyung = 1;
+  }
+}
+void MakeImsang(){
+  imX = rand() % 5;
+  imY = rand() % (9-5+1) + 5;
+}
+void MakeJakyung(){
+  jaX = rand() % 5;
+  jaY = rand() % (9-5+1) + 5;
+}
+void CheckOneLineIm(int j){ // 11.28일에 벽있으면 총 안맞게 수정하기
+  if(j==0){
+    if(px == imX || py == imY){
+      Bang(5);
+    }
+  }
+  else if(j==1){
+    if(jaX == imX || jaY == imY){
+      Bang(7);
+    }
+    else if(px == imX || py == imY){
+      Bang(5);
+    }
+  }
+}
+void CheckOneLineJa(){};
+void Bang(int w){ 
+  int r, acc;
+  r = rand() % 100;
+  if(w==5){
+    if(r < 50){
+      printf("술취한 사람이 임상의 총에 맞았습니다.. \n");
+    }
+    else{
+      printf("임상이 술취한 사람에게 총을 쐈으나, 맞지 않았습니다.. \n");
+    }
+  }
+  else if(w==7){
+    if(r < 30){
+      printf("자경이 임상의 총에 맞았습니다.. \n");
+    }
+    else{
+      printf("임상이 자경에게 총을 쐈으나, 맞지 않았습니다.. \n");
+    }
+  }
 }
