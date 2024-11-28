@@ -162,20 +162,20 @@ void PlayerWalk(){
   unitTime += 1;
 }
 void RandomWalk(){
-  int pRand = rand() % 4;
-  if(pRand == 0){
+  char key = getchar();
+  if(key == 'w'){
     PTop();
   }
-  else if(pRand == 1){
+  else if(key == 's'){
     PUnder();
   }
-  else if(pRand == 2){
+  else if(key == 'd'){
     PLeft();
   }
-  else if(pRand == 3){
+  else if(key == 'a'){
     PRight();
   }
-  printf("rand: %d \n", pRand); // 테스트용 지우기
+  printf("rand: %c \n", key); // 테스트용 지우기
 }
 void PTop(){
   if(px != 0){
@@ -293,6 +293,9 @@ void TwoQ(){
   if(twoUT == 10){
     MakeImsang();
   }
+  if(twoUT <= 10){
+    CheckOneLineIm(0);
+  }
   if(twoUT == 20){
     MakeJakyung();
     jakyung = 1;
@@ -307,43 +310,29 @@ void MakeJakyung(){
   jaY = rand() % (9-5+1) + 5;
 }
 void CheckOneLineIm(int ja){ // 11.28일에 벽있으면 서로 못 보게 수정하기
-  int cnt = 0;
-  int twoWallX[5]={1,1,2,2,2};
-  int twoWallY[5]={5,6,6,8,9};
+  int cntX = 0;
+  int cntY = 0;
   if(ja==0){
-    if(px == imX || py == imY){
-      printf("dddd \n");
-      for(int i = 0; i<5; i++){
-        if(twoWallX[i] == px || twoWallY[i]==py){
-          cnt++;
-        }
-      }
-      if(cnt == 0){
+    if(px == imX){
+      // for(int i = px; i<=imX; i++){
+      //   if(map[px][i] == 1){
+      //     cntX++;
+      //   }
+      // }
+      //if(cntX == 0){
         Bang(5);
-      }
+      //}
     }
-  }
-  else if(ja==1){
-    if(jaX == imX || jaY == imY){
-      for(int i = 0; i<5; i++){
-        if(twoWallX[i] == jaX || twoWallY[i]== jaY){
-          cnt++;
-        }
-      }
-      if(cnt == 0){
-        Bang(7);
-      }
-    }
-    else if(px == imX || py == imY){
-      for(int i = 0; i<5; i++){
-        if(twoWallX[i] == px || twoWallY[i]== py){
-          cnt++;
-        }
-      }
-      if(cnt == 0){
+    // else if(py == imY){
+    //   for(int i = py; i<=imY; i++){
+    //     if(map[i][py] == 1){
+    //       cntY++;
+    //     }
+    //   }
+      //if(cntY == 0){
         Bang(5);
-      }
-    }
+      //}
+//    }
   }
 }
 void CheckOneLineJa(){};
